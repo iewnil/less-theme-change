@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const webpack = require('webpack');
 const { bundleLessTheme, miniLessTheme, replaceLessTheme} = require('@lingxiteam/bundle-less-theme-tools');
 
