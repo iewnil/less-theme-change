@@ -7,5 +7,6 @@
   "license": "MIT",
   "dependencies": {
     "@lingxiteam/bundle-less-theme-tools": "^0.0.1-alpha.1"
-  }
+  },
+  "gitHead": "95d119f11a2fec2df03bbbcc1b88bf76014792c8"
 }

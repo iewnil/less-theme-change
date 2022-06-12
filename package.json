@@ -15,5 +15,6 @@
     "packages": [
       "packages/*"
     ]
-  }
+  },
+  "name": "less-theme-change"
 }
