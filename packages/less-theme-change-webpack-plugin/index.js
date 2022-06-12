@@ -56,8 +56,8 @@ class LessThemeChangePlugin {
               javascriptEnabled: true
             };
           </script>
-          <script type="text/javascript"  data-poll="1000" src="${this.options.lessPath}"></script>
-          <link rel="stylesheet/less" type="text/css" href="${this.options.themeFileOutputPath}" />
+          <script type="text/javascript"  data-poll="1000" src="${this.options.lessJsFilePath}"></script>
+          <link rel="stylesheet/less" type="text/css" href="${this.options.bundleThemeFileName}" />
         `;
         const updatedContent = htmlContent.replace(initLessThemeStyle, '').replace(/<body>/gi, `<body>${initLessThemeStyle}`);
         indexHtml.source = () => updatedContent;
