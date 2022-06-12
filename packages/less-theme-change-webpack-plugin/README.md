@@ -50,8 +50,9 @@ window.less.modifyVars({
 | Property | Type | Default | Descript |
 | --- | --- | --- | --- |
 | htmlFilePath | string | index.html | The project html file path |
-| themeFileEntryPath | string | '' | The less theme style file entry
-| themeFileOutputPath | string | theme.txt | The less theme style file output by plugin |
+| themeFileEntryPath | string | '' | The less theme style file entry|
+| themeFileOutputDir | string | '' | Specify the less theme style file directory for additional output |
+| bundleThemeFileName | string | theme.txt | The less theme style file output to dist directory by plugin |
 | lessJsFilePath | string | https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js |  less.js cdn or file path |
 | replaceContentsMapping | object | {} | The themeStyleFile content replace mapping { [key]: value } ( key is the replaced content, value is the new content, both are string )|
 
