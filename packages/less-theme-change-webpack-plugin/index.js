@@ -11,7 +11,8 @@ class LessThemeChangePlugin {
     this.options = {
       htmlFilePath: 'index.html', // the same as ./index.html
       themeFileEntryPath: '',
-      themeFileOutputPath: 'theme.txt', // .txt file is smaller than .less, the same as ./theme.txt
+      themeFileOutputDir: '', 
+      bundleThemeFileName: 'theme.txt', // .txt file is smaller than .less, the same as ./theme.txt
       lessJsFilePath: 'https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js',
       replaceContentsMapping: {
         'the content of theme style file ready to be replaced': 'the new content',
@@ -84,18 +85,23 @@ class LessThemeChangePlugin {
     themeBundle = miniLessTheme(themeBundle);
 
     // 内容输出
-    compilation.assets[themeFileOutputPath] = {
+    compilation.assets[bundleThemeFileName] = {
       source: () => themeBundle,
       size: () => themeBundle.length,
     };
 
-    if (themeFileOutputPath) {
-      fs.writeFileSync(`${themeFileOutputPath}`, themeBundle);
+    if (themeFileOutputDir) {
+      const themeFileOutputPath = path.join(themeFileOutputDir, bundleThemeFileName);
+      fs.writeFileSync(themeFileOutputPath, themeBundle);
       console.log(
         `
           🌈Less them style init successfully. 
           📃The theme file output: ${themeFileOutputPath}
         `,
+      );
+    } else {
+      console.log(
+        `🌈Less them style init successfully. `,
       );
     }
 
