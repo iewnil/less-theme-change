@@ -70,7 +70,8 @@ class LessThemeChangePlugin {
     // TODO: 查看文件是否存在，是否缓存，进行复用？？
 
     const themeFileEntryPath = this.options.themeFileEntryPath;
-    const themeFileOutputPath = this.options.themeFileOutputPath;
+    const themeFileOutputDir = this.options.themeFileOutputDir;
+    const bundleThemeFileName = this.options.bundleThemeFileName;
 
     let themeBundle = '';
     // 从主题样式文件入口开始，打包主题样式
