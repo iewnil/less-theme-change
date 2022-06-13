@@ -49,12 +49,12 @@ function bundleLessTheme (filePath) {
           // 检查路径是否携带 less 变量，有则使用 less 变量值替换
           const lessVarsUsedMatch = /@{([A-Za-z\d-]*)}/g;
           if(lessVarsUsedMatch.test(line)) {
-            const usedVars = line.match(lessVarsUsedMatch);
+            const usedVars = importPath.match(lessVarsUsedMatch);
             usedVars.forEach((usedVar) => {
-              const key = usedVar.replace(/@|{|}/,'');
+              const key = usedVar.replace(/@|{|}/g,'');
               const value = varsMapping[key];
               if(key && value) {
-                line = line.replace(usedVar, value)
+                importPath = importPath.replace(usedVar, value)
               }
             }) 
           }
@@ -82,14 +82,9 @@ function bundleLessTheme (filePath) {
             // 从模块主入口文件路径中，截取真正的模块目录路径
             const modulePath = moduleMainEntry.slice(0, moduleNameStartIndex + moduleName.length);
             wholePath = path.join(modulePath, importPath.replace(moduleNameMatch, ''));
-            console.log('moduleNamemoduleName', moduleName);
-            console.log('moduleMainEntry', moduleMainEntry);
-            console.log('modulePath', modulePath)
           } else {
             wholePath = path.join(fileDirectory, importPath);
           }
-
-          console.log('wholePathwholePath', wholePath);
 
           // 处理过的路径，直接返回空
           if(cacheImportPath[wholePath]) {
@@ -98,14 +93,6 @@ function bundleLessTheme (filePath) {
 
           cacheImportPath[wholePath] = true;
           return bundleTheme(wholePath) || '';
-
-          // 1. 识别是否是 ~ 开头的路径，若是，则为第三方模块（第三方模块路径怎么处理？？？）
-          // 2. 识别是否是 (refenrence) 若是，则不处理
-          // 3. 用对象记录变量
-          // 4. 识别路径是否是变量，对象中查找 替换
-          // 5. 记录处理过的路径
-          // 6. 记录打包的文件内容 hash，做缓存
-
         }
         return line;
       })
