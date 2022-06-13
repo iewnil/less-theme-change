@@ -50,6 +50,14 @@ class LessThemeChangePlugin {
       const indexHtml = assets[htmlFilePath];
       const htmlContent = indexHtml.source();
 
+      let bundleThemeFileName = this.options.bundleThemeFileName;
+      let bundleThemeFilePath = bundleThemeFileName;
+      const publicPath = this.options.publicPath;
+
+      if(publicPath) {
+        bundleThemeFilePath = `${publicPath.replace(/[A-Za-z\d]\/+$/, '')}/${bundleThemeFileName}`;
+      }
+
       if (!htmlContent.match(/\/theme\.less/g)) {
         const initLessThemeStyle = `
           <script>
@@ -60,7 +68,7 @@ class LessThemeChangePlugin {
             };
           </script>
           <script type="text/javascript"  data-poll="1000" src="${this.options.lessJsFilePath}"></script>
-          <link rel="stylesheet/less" type="text/css" href="${this.options.publicPath}/${this.options.bundleThemeFileName}" />
+          <link rel="stylesheet/less" type="text/css" href="${bundleThemeFilePath}" />
         `;
         const updatedContent = htmlContent.replace(initLessThemeStyle, '').replace(/<body>/gi, `<body>${initLessThemeStyle}`);
         indexHtml.source = () => updatedContent;
