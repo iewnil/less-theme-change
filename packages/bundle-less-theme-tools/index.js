@@ -5,10 +5,10 @@ const path = require('path');
 /**
  * 递归解析 less样式文件，打平输出为一个文件
  * @param {String} filePath less 样式文件路径
- * @param {Array} modulePaths 记录-文件中含第三方模块化语法导入的less的语句
+ * @param {String} nodeModulesPath 第三方模块真实存放路径
  * @returns
  */
-function bundleLessTheme (filePath) {
+function bundleLessTheme (filePath, nodeModulesPath) {
   // 缓存路径，防止重复导入
   const cacheImportPath = {};
   // 缓存变量值映射
@@ -81,7 +81,7 @@ function bundleLessTheme (filePath) {
             const moduleNameStartIndex= moduleMainEntry.indexOf(moduleName.replace(/\/.*/, ''));
             // 从模块主入口文件路径中，截取真正的模块目录路径
             const modulePath = moduleMainEntry.slice(0, moduleNameStartIndex + moduleName.length);
-            wholePath = path.join(modulePath, importPath.replace(moduleNameMatch, ''));
+            wholePath = path.join(nodeModulesPath || modulePath, importPath.replace(moduleNameMatch, ''));
           } else {
             wholePath = path.join(fileDirectory, importPath);
           }

@@ -16,6 +16,7 @@ class LessThemeChangePlugin {
       bundleThemeFileName: 'theme.txt', // .txt file is smaller than .less, the same as ./theme.txt
       publicPath: '',
       lessJsFilePath: 'https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js',
+      nodeModulesPath: '',
       replaceContentsMapping: {
         'the content of theme style file ready to be replaced': 'the new content',
       },
@@ -88,7 +89,7 @@ class LessThemeChangePlugin {
     let themeBundle = '';
     // 从主题样式文件入口开始，打包主题样式
     if(themeFileEntryPath) {
-      themeBundle = bundleLessTheme(themeFileEntryPath);
+      themeBundle = bundleLessTheme(themeFileEntryPath, this.options.nodeModulesPath);
     }
 
     // 内容替换
