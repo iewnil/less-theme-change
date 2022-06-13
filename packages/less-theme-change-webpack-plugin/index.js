@@ -13,6 +13,7 @@ class LessThemeChangePlugin {
       htmlFilePath: 'index.html', // the same as ./index.html
       themeFileEntryPath: '',
       themeFileOutputDir: '', 
+      bundleThemeFileOnly: false,
       bundleThemeFileName: 'theme.txt', // .txt file is smaller than .less, the same as ./theme.txt
       lessJsFilePath: 'https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js',
       replaceContentsMapping: {
@@ -36,7 +37,9 @@ class LessThemeChangePlugin {
   }
 
   handleTheme(compilation, callback) {
-    this.handleHtmlContent(compilation.assets);
+    if(!bundleThemeFileOnly) {
+      this.handleHtmlContent(compilation.assets);
+    }
     this.handleThemeFile(compilation, callback);
   }
 
