@@ -81,7 +81,13 @@ function bundleLessTheme (filePath, nodeModulesPath) {
             const moduleNameStartIndex= moduleMainEntry.indexOf(moduleName.replace(/\/.*/, ''));
             // 从模块主入口文件路径中，截取真正的模块目录路径
             const modulePath = moduleMainEntry.slice(0, moduleNameStartIndex + moduleName.length);
-            wholePath = path.join(nodeModulesPath || modulePath, importPath.replace(moduleNameMatch, ''));
+
+            if(nodeModulesPath) {
+              wholePath = path.join(nodeModulesPath, moduleName, importPath.replace(moduleNameMatch, ''));
+            } else {
+              wholePath = path.join(modulePath, importPath.replace(moduleNameMatch, ''));
+            }
+
           } else {
             wholePath = path.join(fileDirectory, importPath);
           }
