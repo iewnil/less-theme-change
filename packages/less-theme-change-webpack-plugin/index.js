@@ -5,9 +5,8 @@ const { bundleLessTheme, miniLessTheme, replaceLessTheme} = require('@lingxiteam
 
 class LessThemeChangePlugin {
   constructor(options) {
-
     // TODO: 校验配置 
-    // path 必须是是相对路径，且只能是相对于打包目录下 且不带 ./ ../ 等，必须由字母或数字开头
+    // htmlFilePath、 bundleThemeFilePath 必须是是相对路径，且只能是相对于打包目录下 且不带 ./ ../ 等，必须由字母或数字开头
 
     this.options = {
       htmlFilePath: 'index.html', // the same as ./index.html
@@ -15,6 +14,7 @@ class LessThemeChangePlugin {
       themeFileOutputDir: '', 
       bundleThemeFileOnly: false,
       bundleThemeFileName: 'theme.txt', // .txt file is smaller than .less, the same as ./theme.txt
+      publicPath: '',
       lessJsFilePath: 'https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js',
       replaceContentsMapping: {
         'the content of theme style file ready to be replaced': 'the new content',
@@ -60,7 +60,7 @@ class LessThemeChangePlugin {
             };
           </script>
           <script type="text/javascript"  data-poll="1000" src="${this.options.lessJsFilePath}"></script>
-          <link rel="stylesheet/less" type="text/css" href="${this.options.bundleThemeFileName}" />
+          <link rel="stylesheet/less" type="text/css" href="${this.options.publicPath}/${this.options.bundleThemeFileName}" />
         `;
         const updatedContent = htmlContent.replace(initLessThemeStyle, '').replace(/<body>/gi, `<body>${initLessThemeStyle}`);
         indexHtml.source = () => updatedContent;
