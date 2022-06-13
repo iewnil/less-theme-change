@@ -77,14 +77,14 @@ function bundleLessTheme (filePath, nodeModulesPath) {
             // 匹配；~xxx、~@xxx-xxx/xxx、~xxx-xxx、~@xxx/xxx
             const moduleNameMatch = /^~([a-zA-Z]+|[a-zA-Z]+\-[a-zA-Z]+|@[a-zA-Z]+\-[a-zA-Z]+\/([a-zA-Z]+|[a-zA-Z]+\-[a-zA-Z]+))/;
             const moduleName = importPath.match(moduleNameMatch)[0].replace('~','');
-            const moduleMainEntry = require.resolve(moduleName);
-            const moduleNameStartIndex= moduleMainEntry.indexOf(moduleName.replace(/\/.*/, ''));
-            // 从模块主入口文件路径中，截取真正的模块目录路径
-            const modulePath = moduleMainEntry.slice(0, moduleNameStartIndex + moduleName.length);
 
             if(nodeModulesPath) {
               wholePath = path.join(nodeModulesPath, moduleName, importPath.replace(moduleNameMatch, ''));
             } else {
+              const moduleMainEntry = require.resolve(moduleName);
+              const moduleNameStartIndex= moduleMainEntry.indexOf(moduleName.replace(/\/.*/, ''));
+              // 从模块主入口文件路径中，截取真正的模块目录路径
+              const modulePath = moduleMainEntry.slice(0, moduleNameStartIndex + moduleName.length);
               wholePath = path.join(modulePath, importPath.replace(moduleNameMatch, ''));
             }
 
