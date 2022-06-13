@@ -37,7 +37,7 @@ class LessThemeChangePlugin {
   }
 
   handleTheme(compilation, callback) {
-    if(!bundleThemeFileOnly) {
+    if(!this.options.bundleThemeFileOnly) {
       this.handleHtmlContent(compilation.assets);
     }
     this.handleThemeFile(compilation, callback);
