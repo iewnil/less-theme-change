@@ -52,7 +52,7 @@ window.less.modifyVars({
 | htmlFilePath | string | index.html | The project html file path |
 | themeFileEntryPath | string | '' | The Entry of less theme style file to be bundled |
 | themeFileOutputDir | string | '' | Specify the bundled less theme style file directory for additional output |
-| bundleThemeFileOnly | string | false | Only output the bundled less theme style file
+| bundleThemeFileOnly | boolean | false | Only output the bundled less theme style file
 | bundleThemeFileName | string | theme.txt | The bundled less theme style file output to dist directory by plugin |
 | publicPath | string | '' | The publicPath must be set as the publicPath of the project, and will be reflected in the path of introducing the bundled less theme style file in HTML| 
 | lessJsFilePath | string | https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js |  less.js cdn or file path |
