@@ -27,7 +27,7 @@ function bundleLessTheme (filePath, nodeModulesPath) {
       .map((line) => {
 
         // 匹配 less 变量
-        const lessVarsDefineMatch = /^@(.*):(.*);$/;
+        const lessVarsDefineMatch = /^@(.*):(.*);/;
         if(lessVarsDefineMatch.test(line)) {
           const [, key = '', value = ''] = line.match(lessVarsDefineMatch);
           // 缓存 less 变量值
