@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const { bundleLessTheme, miniLessTheme, replaceLessTheme} = require('@lingxiteam/bundle-less-theme-tools');
+const { bundleLessTheme, replaceLessTheme} = require('@lingxiteam/bundle-less-theme-tools');
 
 class LessThemeChangePlugin {
   constructor(options) {
@@ -95,8 +95,8 @@ class LessThemeChangePlugin {
     // 内容替换
     themeBundle = replaceLessTheme(themeBundle, this.options.replaceContentsMapping);
 
-    // 内容压缩
-    themeBundle = miniLessTheme(themeBundle);
+    // TODO: 内容压缩，目前 miniLessTheme 无法正常处理 http://xxx 数据，//后的内容会当做注释移除掉
+    // themeBundle = miniLessTheme(themeBundle);
 
     // 内容输出
     compilation.assets[bundleThemeFileName] = {
