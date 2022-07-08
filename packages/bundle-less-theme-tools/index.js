@@ -74,8 +74,8 @@ function bundleLessTheme (filePath, nodeModulesPath) {
 
           // 是否第三方依赖包路径
           if (importPath.startsWith('~')) {
-            // 匹配；~xxx、~xxx-xxx、~@xxx-xxx/xxx、~@xxx-xxx/xxx-xxx、~@xxx/xxx、~@xxx/xxx-xxx
-            const moduleNameMatch = /^~([a-zA-Z]+-[a-zA-Z]+|[a-zA-Z]+|(@[a-zA-Z]+-[a-zA-Z]+\/([a-zA-Z]+-[a-zA-Z]+|[a-zA-Z]+))|(@[a-zA-Z]+\/([a-zA-Z]+-[a-zA-Z]+|[a-zA-Z]+)))/g;
+            // 匹配；~xxx(-xxx)*、~@xxx(-xxx)*/xxx(-xxx)*、~@xxx/xxx(-xxx)*
+            const moduleNameMatch = /^~([a-zA-Z]+(-[a-zA-Z]+)*|(@[a-zA-Z]+(-[a-zA-Z]+)*\/[a-zA-Z]+(-[a-zA-Z]+)*)|(@[a-zA-Z]+\/[a-zA-Z]+(-[a-zA-Z]+)*))/g;
             const moduleName = importPath.match(moduleNameMatch)[0].replace('~','');
 
             if(nodeModulesPath) {
