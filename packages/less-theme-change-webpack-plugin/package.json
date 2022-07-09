@@ -1,12 +1,12 @@
 {
   "name": "@lingxiteam/less-theme-change-webpack-plugin",
-  "version": "0.0.1-alpha.15",
+  "version": "0.0.1-alpha.16",
   "description": "A webpack plugin for dynamically modifying less vars Online",
   "main": "index.js",
   "author": "coderya",
   "license": "MIT",
   "dependencies": {
-    "@lingxiteam/bundle-less-theme-tools": "^0.0.1-alpha.15"
+    "@lingxiteam/bundle-less-theme-tools": "^0.0.1-alpha.16"
   },
-  "gitHead": "87e487c9b21f2ed01f97bdcaabf772f9c11b2e57"
+  "gitHead": "46415e4b23aca7e2c2b6257a3100c184fff4a14a"
 }
