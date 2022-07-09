@@ -37,7 +37,7 @@ function bundleLessTheme (filePath, nodeModulesPath) {
         }
 
         // 导入路径
-        if (line.startsWith('@import')) {
+        if (line.trimStart().startsWith('@import')) {
           // 具体路径
           let importPath = line.match(/@import[^'"]*['"](.*)['"]/)[1];
 
