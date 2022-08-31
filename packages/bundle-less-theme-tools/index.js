@@ -11,10 +11,14 @@ const path = require('path');
 function bundleLessTheme (filePath, nodeModulesPath) {
   // 缓存路径，防止重复导入
   const cacheImportPath = {};
-  // 缓存变量值映射
+  // 缓存变量信息（第一次出现的值value 和 与第一次值不同的出现次数）映射，例如：{ '@xxx-xxx': { value: 'xxx', diffCount: xx }  }
   const varsMapping = {};
+  // 记录每个文件的变量信息映射，例如：  { 'xx/xx/xx.less': fileVars }
+  const filesVarsMapping = {};
 
   function bundleTheme (filePath) {
+    // 例如：{ '@xxx-xxx': { originName: '@xxx-xxx', value: 'xxx' }  }
+    const fileVarsMapping = {};
     // 读取文件内容
     const fileContent = fs.readFileSync(filePath) || '';
     const fileContentStr = fileContent.toString();
@@ -28,12 +32,42 @@ function bundleLessTheme (filePath, nodeModulesPath) {
 
         // 匹配 less 变量
         const lessVarsDefineMatch = /^@(.*):(.*);/;
-        if(lessVarsDefineMatch.test(line)) {
+        if (lessVarsDefineMatch.test(line)) {
           const [, key = '', value = ''] = line.match(lessVarsDefineMatch);
-          // 缓存 less 变量值
-          if(key && value) {
-            varsMapping[key.trim()] = value.trim();
+          const keyTrim = key?.trim();
+          const valueTrim = value?.trim();
+
+          if (keyTrim && valueTrim) {
+            
+            // 缓存第一次出现的 less 变量值
+            if (!varsMapping[keyTrim]) {
+              varsMapping[keyTrim] = {
+                value: valueTrim,
+                diffCount: 0,
+              }
+              return line;
+            }
+
+            // 非第二次出现，但值相同
+            if (valueTrim === varsMapping[keyTrim]) {
+              return line;
+            }
+
+            // 值不同，在文件变量映射中记录并生成新的变量名
+            //（TODO: 改名字容易，但是万一出现，这个名字的定义，被其他引用这个文件的文件里引用了，还要分析出所有直接引用或者间接引用这个文件的文件）
+            let newLine = line;
+            varsMapping[keyTrim].diffCount += 1;
+            const newVarName = `${keyTrim}-${varsMapping[keyTrim].diffCount}`;
+            fileVarsMapping[newVarName] = {
+              originName: keyTrim,
+              value: valueTrim,
+            }
+            newLine = newLine.replace(keyTrim, newVarName)
+            filesVarsMapping[filePath] = fileVarsMapping;
+
+            return newLine;
           }
+          return line;
         }
 
         // 导入路径
@@ -100,7 +134,25 @@ function bundleLessTheme (filePath, nodeModulesPath) {
           cacheImportPath[wholePath] = true;
           return bundleTheme(wholePath) || '';
         }
-        return line;
+
+        // 存储原名与更名的变量名的映射
+        const varsOriginNameMapping = {};
+        const fileVarsOriginNames = Object.keys(fileVarsMapping).map(v => {
+          const varInfo = fileVarsMapping[v];
+          const originName = varInfo.originName.replace('@', '');
+
+          varsOriginNameMapping[originName] = v;
+          return originName;
+        });
+
+        let newLine = line;
+        fileVarsOriginNames.forEach(varOriginName => {
+          const matchRegExp = new RegExp('@{'+ varOriginName +'}');
+          // remark: 如果一个文件同时定义了两个相同less变量，取最后出现的
+          newLine = newLine.replace(matchRegExp, `@{${varsOriginNameMapping[varOriginName]}}`)
+        })
+
+        return newLine;
       })
       .join('\n');
     
