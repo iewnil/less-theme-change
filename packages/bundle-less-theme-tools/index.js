@@ -13,7 +13,7 @@ function bundleLessTheme (filePath, nodeModulesPath) {
   const cacheImportPath = {};
   // 缓存变量信息（第一次出现的值value 和 与第一次值不同的出现次数）映射，例如：{ '@xxx-xxx': { value: 'xxx', diffCount: xx }  }
   const varsMapping = {};
-  // 记录每个文件的变量信息映射，例如：  { 'xx/xx/xx.less': fileVars }
+  // TODO: 预留，记录每个文件的变量信息映射，例如：  { 'xx/xx/xx.less': fileVars }
   const filesVarsMapping = {};
 
   function bundleTheme (filePath) {
@@ -146,10 +146,14 @@ function bundleLessTheme (filePath, nodeModulesPath) {
         });
 
         let newLine = line;
+
+        // 将本文件重命名的变量名应用到样式中去（前缀、使用的样式变量）
         fileVarsOriginNames.forEach(varOriginName => {
-          const matchRegExp = new RegExp('@{'+ varOriginName +'}');
+          const matchClassRegExp = new RegExp(`@{${varOriginName}}`);
+          const matchVarsRegExp = new RegExp(`@${varOriginName}`)
           // remark: 如果一个文件同时定义了两个相同less变量，取最后出现的
-          newLine = newLine.replace(matchRegExp, `@{${varsOriginNameMapping[varOriginName]}}`)
+          newLine = newLine.replace(matchClassRegExp, `@{${varsOriginNameMapping[varOriginName]}}`);
+          newLine = newLine.replace(matchVarsRegExp, `@${varsOriginNameMapping[varOriginName]}`);
         })
 
         return newLine;
