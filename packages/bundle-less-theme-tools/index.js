@@ -86,7 +86,7 @@ function bundleLessTheme (filePath, nodeModulesPath) {
             const usedVars = importPath.match(lessVarsUsedMatch);
             usedVars.forEach((usedVar) => {
               const key = usedVar.replace(/@|{|}/g,'');
-              const value = varsMapping[key];
+              const value = varsMapping[key]?.value;
               if(key && value) {
                 importPath = importPath.replace(usedVar, value)
               }
