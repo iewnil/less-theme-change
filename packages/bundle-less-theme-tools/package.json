@@ -1,9 +1,9 @@
 {
   "name": "@lingxiteam/bundle-less-theme-tools",
-  "version": "0.0.1-alpha.16",
+  "version": "0.0.1-alpha.16.1",
   "description": "A tool for bundling less theme files.",
   "main": "index.js",
   "author": "coderya",
   "license": "MIT",
-  "gitHead": "46415e4b23aca7e2c2b6257a3100c184fff4a14a"
+  "gitHead": "289744ff4c81c8e8a23a26d981868bbbc04907e1"
 }
